@@ -1,11 +1,12 @@
 import React from 'react';
 
 import {SafeAreaView, Text} from 'react-native';
+import Title from './components/Title/Title';
 
 const App = () => {
   return (
     <SafeAreaView>
-      <Text style={{fontFamily: 'Inter-Black'}}>Hello World 123</Text>
+      <Title title={"Let's Explore"} />
     </SafeAreaView>
   );
 };
