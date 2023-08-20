@@ -35,8 +35,14 @@ const style = StyleSheet.create({
     color: '#fff',
   },
   userStoryContainer: {
-    paddingHorizontal: 28,
+    // paddingHorizontal: 28,
     paddingTop: 12,
+  },
+  firstUserContainer: {
+    paddingLeft: 26,
+  },
+  followingUserContainer: {
+    paddingLeft: 0,
   },
 });
 

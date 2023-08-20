@@ -97,7 +97,16 @@ const App = () => {
             showsHorizontalScrollIndicator={false}
             horizontal={true}
             data={renderData}
-            renderItem={({item}) => <UserStory firstName={item.firstName} />}
+            renderItem={({item, index}) => (
+              <UserStory
+                firstName={item.firstName}
+                style={
+                  index === 0
+                    ? style.firstUserContainer
+                    : style.followingUserContainer
+                }
+              />
+            )}
           />
         </View>
       </ScrollView>

@@ -5,7 +5,7 @@ import style from './style';
 
 const UserStory = props => {
   return (
-    <View style={style.storyContainer}>
+    <View style={[style.storyContainer, props.style]}>
       <View style={style.userImageContainer}>
         <Image source={require('../../assets/images/default_profile.png')} />
       </View>
