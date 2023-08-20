@@ -34,6 +34,10 @@ const style = StyleSheet.create({
     fontWeight: '600',
     color: '#fff',
   },
+  userStoryContainer: {
+    paddingHorizontal: 28,
+    paddingTop: 12,
+  },
 });
 
 export default style;
