@@ -45,7 +45,6 @@ const style = StyleSheet.create({
   },
   userPostContainer: {
     marginTop: 30,
-    height: '100%',
     paddingHorizontal: 22,
   },
 });

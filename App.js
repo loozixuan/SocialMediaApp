@@ -1,13 +1,6 @@
 import React, {useState} from 'react';
 
-import {
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  FlatList,
-} from 'react-native';
+import {Pressable, SafeAreaView, View, Text, FlatList} from 'react-native';
 import Title from './components/Title/Title';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faEnvelope} from '@fortawesome/free-regular-svg-icons';
@@ -38,7 +31,7 @@ const App = () => {
       id: 5,
     },
     {
-      firstName: 'Strawberry',
+      firstName: 'Berry',
       id: 6,
     },
     {
@@ -101,12 +94,16 @@ const App = () => {
       id: 5,
     },
   ];
+
   const pageSize = 4;
   const pageSizePosts = 2;
+
   const [pageNumber, setPageNumber] = useState(1);
   const [postPageNumber, setPostPageNumber] = useState(1);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingPosts, setIsLoadingPosts] = useState(false);
+
   const [renderData, setRenderData] = useState(data.slice(0, pageSize));
   const [renderDataPosts, setRenderDataPosts] = useState(
     posts.slice(0, pageSizePosts),
@@ -114,92 +111,100 @@ const App = () => {
 
   const pagination = (data, pageNumber, pageSize, posts = false) => {
     let startIndex = (pageNumber - 1) * pageSize;
+    //don't return the information that does not exist inside the data array
     if (startIndex >= data.length) {
       return [];
     }
-
     if (!posts) {
+      //set the page number, to the page number that we wanted to fetch so that we have information
+      //about which page was the one that was last fetched
       setPageNumber(pageNumber);
     } else {
       setPostPageNumber(pageNumber);
     }
-
-    setPageNumber(pageNumber);
     return data.slice(startIndex, startIndex + pageSize);
   };
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <View style={style.header}>
-          <Title title={"Let's Explore"} />
-          <Pressable style={style.messageIcon}>
-            <FontAwesomeIcon icon={faEnvelope} color="#CACDDE" size={20} />
-            <View style={style.messageNumberContainer}>
-              <Text style={style.messageNumber}>2</Text>
+      <FlatList
+        ListHeaderComponent={
+          <>
+            <View style={style.header}>
+              <Title title={"Let's Explore"} />
+              <Pressable style={style.messageIcon}>
+                <FontAwesomeIcon
+                  icon={faEnvelope}
+                  color={'#CACDDE'}
+                  size={20}
+                />
+                <View style={style.messageNumberContainer}>
+                  <Text style={style.messageNumber}>2</Text>
+                </View>
+              </Pressable>
             </View>
-          </Pressable>
-        </View>
-        <View style={style.userStoryContainer}>
-          <FlatList
-            onMomentumScrollBegin={() => setIsLoading(false)}
-            onEndReachedThreshold={0.5}
-            keyExtractor={item => item.id.toString()}
-            onEndReached={() => {
-              if (!isLoading) {
-                setIsLoading(true);
-                setRenderData(prev => [
-                  ...prev,
-                  ...pagination(data, pageNumber + 1, pageSize),
-                ]);
-                setIsLoading(false);
-              }
-            }}
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}
-            data={renderData}
-            renderItem={({item, index}) => (
-              <UserStory
-                firstName={item.firstName}
-                style={
-                  index === 0
-                    ? style.firstUserContainer
-                    : style.followingUserContainer
-                }
+            <View style={style.userStoryContainer}>
+              <FlatList
+                onMomentumScrollBegin={() => setIsLoadingPosts(false)}
+                onEndReachedThreshold={0.5}
+                keyExtractor={item => item.id.toString()}
+                onEndReached={() => {
+                  if (!isLoading) {
+                    setIsLoading(true);
+                    setRenderData(prev => [
+                      ...prev,
+                      ...pagination(data, pageNumber + 1, pageSize),
+                    ]);
+
+                    setIsLoading(false);
+                  }
+                }}
+                showsHorizontalScrollIndicator={false}
+                horizontal={true}
+                data={renderData}
+                renderItem={({item, index}) => (
+                  <UserStory
+                    firstName={item.firstName}
+                    style={
+                      index === 0
+                        ? style.firstUserContainer
+                        : style.followingUserContainer
+                    }
+                  />
+                )}
               />
-            )}
-          />
-        </View>
-        <View style={style.userPostContainer}>
-          <FlatList
-            onMomentumScrollBegin={() => setIsLoadingPosts(false)}
-            onEndReachedThreshold={0.5}
-            keyExtractor={item => item.id.toString()}
-            onEndReached={() => {
-              if (!isLoadingPosts) {
-                setIsLoadingPosts(true);
-                setRenderDataPosts(prev => [
-                  ...prev,
-                  ...pagination(posts, pageNumber + 1, pageSize, true),
-                ]);
-                setIsLoadingPosts(false);
-              }
-            }}
-            showsVerticalScrollIndicator={false}
-            data={renderDataPosts}
-            renderItem={({item}) => (
-              <UserPost
-                firstName={item.firstName}
-                lastName={item.lastName}
-                comments={item.comments}
-                likes={item.likes}
-                bookmarks={item.bookmarks}
-                location={item.location}
-              />
-            )}
-          />
-        </View>
-      </ScrollView>
+            </View>
+          </>
+        }
+        onMomentumScrollBegin={() => setIsLoadingPosts(false)}
+        onEndReachedThreshold={0.5}
+        keyExtractor={item => item.id.toString() + 'post'}
+        onEndReached={() => {
+          if (!isLoadingPosts) {
+            setIsLoadingPosts(true);
+            setRenderDataPosts(prev => [
+              ...prev,
+              ...pagination(posts, postPageNumber + 1, pageSizePosts, true),
+            ]);
+
+            setIsLoadingPosts(false);
+          }
+        }}
+        showsVerticalScrollIndicator={false}
+        data={renderDataPosts}
+        renderItem={({item}) => (
+          <View style={style.userPostContainer}>
+            <UserPost
+              firstName={item.firstName}
+              lastName={item.lastName}
+              comments={item.comments}
+              likes={item.likes}
+              bookmarks={item.bookmarks}
+              location={item.location}
+            />
+          </View>
+        )}
+      />
     </SafeAreaView>
   );
 };

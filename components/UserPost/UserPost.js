@@ -31,10 +31,7 @@ const UserPost = props => {
         </Pressable>
       </View>
       <View style={style.post}>
-        <Image
-          resizeMethod={'cover'}
-          source={require('../../assets/images/default_post.png')}
-        />
+        <Image source={require('../../assets/images/default_post.png')} />
       </View>
       <View style={style.userPostStats}>
         <Pressable style={style.userStatsPostButton}>
