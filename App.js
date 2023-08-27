@@ -13,6 +13,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faEnvelope} from '@fortawesome/free-regular-svg-icons';
 import style from './assets/styles/main';
 import UserStory from './components/UserStory/UserStory';
+import UserPost from './components/UserPost/UserPost';
 
 const App = () => {
   const data = [
@@ -53,16 +54,76 @@ const App = () => {
       id: 9,
     },
   ];
+  const posts = [
+    {
+      firstName: 'Allison',
+      lastName: 'Becker',
+      location: 'Sukabumi, Jawa Barat',
+      likes: 1201,
+      comments: 24,
+      bookmarks: 55,
+      id: 1,
+    },
+    {
+      firstName: 'Jeniffer',
+      lastName: 'Wilkson',
+      location: 'Pondol Leungder, Jawa Barat',
+      likes: 453,
+      comments: 12,
+      bookmarks: 32,
+      id: 2,
+    },
+    {
+      firstName: 'Adam',
+      lastName: 'Eve',
+      location: 'Boston, Jawa Barat',
+      likes: 12,
+      comments: 2,
+      bookmarks: 44,
+      id: 3,
+    },
+    {
+      firstName: 'Zi',
+      lastName: 'Xuan',
+      location: 'Uluuu Yammm, Jawa Barat',
+      likes: 0,
+      comments: 21,
+      bookmarks: 1,
+      id: 4,
+    },
+    {
+      firstName: 'Nicoleas',
+      lastName: 'Marasads',
+      location: 'Berlin, Germany',
+      likes: 0,
+      comments: 21,
+      bookmarks: 1,
+      id: 5,
+    },
+  ];
   const pageSize = 4;
+  const pageSizePosts = 2;
   const [pageNumber, setPageNumber] = useState(1);
+  const [postPageNumber, setPostPageNumber] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingPosts, setIsLoadingPosts] = useState(false);
   const [renderData, setRenderData] = useState(data.slice(0, pageSize));
+  const [renderDataPosts, setRenderDataPosts] = useState(
+    posts.slice(0, pageSizePosts),
+  );
 
-  const pagination = (data, pageNumber, pageSize) => {
+  const pagination = (data, pageNumber, pageSize, posts = false) => {
     let startIndex = (pageNumber - 1) * pageSize;
     if (startIndex >= data.length) {
       return [];
     }
+
+    if (!posts) {
+      setPageNumber(pageNumber);
+    } else {
+      setPostPageNumber(pageNumber);
+    }
+
     setPageNumber(pageNumber);
     return data.slice(startIndex, startIndex + pageSize);
   };
@@ -105,6 +166,35 @@ const App = () => {
                     ? style.firstUserContainer
                     : style.followingUserContainer
                 }
+              />
+            )}
+          />
+        </View>
+        <View style={style.userPostContainer}>
+          <FlatList
+            onMomentumScrollBegin={() => setIsLoadingPosts(false)}
+            onEndReachedThreshold={0.5}
+            keyExtractor={item => item.id.toString()}
+            onEndReached={() => {
+              if (!isLoadingPosts) {
+                setIsLoadingPosts(true);
+                setRenderDataPosts(prev => [
+                  ...prev,
+                  ...pagination(posts, pageNumber + 1, pageSize, true),
+                ]);
+                setIsLoadingPosts(false);
+              }
+            }}
+            showsVerticalScrollIndicator={false}
+            data={renderDataPosts}
+            renderItem={({item}) => (
+              <UserPost
+                firstName={item.firstName}
+                lastName={item.lastName}
+                comments={item.comments}
+                likes={item.likes}
+                bookmarks={item.bookmarks}
+                location={item.location}
               />
             )}
           />

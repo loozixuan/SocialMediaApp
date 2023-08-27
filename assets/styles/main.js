@@ -35,7 +35,6 @@ const style = StyleSheet.create({
     color: '#fff',
   },
   userStoryContainer: {
-    // paddingHorizontal: 28,
     paddingTop: 12,
   },
   firstUserContainer: {
@@ -43,6 +42,11 @@ const style = StyleSheet.create({
   },
   followingUserContainer: {
     paddingLeft: 0,
+  },
+  userPostContainer: {
+    marginTop: 30,
+    height: '100%',
+    paddingHorizontal: 22,
   },
 });
 
