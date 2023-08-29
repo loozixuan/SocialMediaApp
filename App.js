@@ -1,6 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
-import {Pressable, SafeAreaView, View, Text, FlatList} from 'react-native';
+import {
+  Pressable,
+  SafeAreaView,
+  View,
+  Text,
+  FlatList,
+  Dimensions,
+} from 'react-native';
 import Title from './components/Title/Title';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faEnvelope} from '@fortawesome/free-regular-svg-icons';
@@ -109,6 +116,16 @@ const App = () => {
     posts.slice(0, pageSizePosts),
   );
 
+  // Dimension API
+  const [screenData, setScreenData] = useState(Dimensions.get('screen'));
+  console.log(screenData);
+  useEffect(() => {
+    Dimensions.addEventListener('change', result => {
+      console.log('changed screen data', result.screen);
+      setScreenData(result.screen);
+    });
+  }, []);
+
   const pagination = (data, pageNumber, pageSize, posts = false) => {
     let startIndex = (pageNumber - 1) * pageSize;
     //don't return the information that does not exist inside the data array
@@ -139,7 +156,13 @@ const App = () => {
                   size={20}
                 />
                 <View style={style.messageNumberContainer}>
-                  <Text style={style.messageNumber}>2</Text>
+                  <Text
+                    style={[
+                      style.messageNumber,
+                      {fontSize: screenData.height / 125}, // Using Dimension API to adjust the font size
+                    ]}>
+                    2
+                  </Text>
                 </View>
               </Pressable>
             </View>
