@@ -30,8 +30,8 @@ const guidelineBaseFonts = () => {
 
 const horizontalScale = size => (width / guidelineBaseWidth()) * size;
 
-const verticalscale = size => (height / guidelineBaseHeight()) * size;
+const verticalScale = size => (height / guidelineBaseHeight()) * size;
 
 const scaleFontSize = size => Math.round((size * width) / guidelineBaseFonts());
 
-export {horizontalScale, verticalscale, scaleFontSize};
+export {horizontalScale, verticalScale, scaleFontSize};
