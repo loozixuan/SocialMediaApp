@@ -7,6 +7,8 @@ import {
   Text,
   FlatList,
   Dimensions,
+  Platform,
+  Switch,
 } from 'react-native';
 import Title from './components/Title/Title';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -116,6 +118,8 @@ const App = () => {
     posts.slice(0, pageSizePosts),
   );
 
+  const [isOn, setIsOn] = useState(false);
+
   // Dimension API
   const [screenData, setScreenData] = useState(Dimensions.get('screen'));
   console.log(screenData);
@@ -149,6 +153,19 @@ const App = () => {
           <>
             <View style={style.header}>
               <Title title={"Let's Explore"} />
+              {/* Demonstrate the platform specific code purpose*/}
+              {/* <Switch
+                value={isOn}
+                onValueChange={value => setIsOn(value)}
+                style={[
+                  Platform.OS === 'android' && {
+                    transform: [{scaleX: 1.8}, {scaleY: 1.8}],
+                  },
+                ]}
+                trackColor={
+                  Platform.OS === 'android' && {false: 'grey', true: 'red'}
+                }
+              /> */}
               <Pressable style={style.messageIcon}>
                 <FontAwesomeIcon
                   icon={faEnvelope}
