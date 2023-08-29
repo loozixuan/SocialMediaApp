@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
 import {
+  StatusBar,
   Pressable,
   SafeAreaView,
   View,
@@ -148,6 +149,7 @@ const App = () => {
 
   return (
     <SafeAreaView>
+      {/* <StatusBar backgroundColor={'red'} barStyle={'dark-content'} /> */}
       <FlatList
         ListHeaderComponent={
           <>
