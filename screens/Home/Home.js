@@ -167,9 +167,7 @@ const Home = ({navigation}) => {
                   Platform.OS === 'android' && {false: 'grey', true: 'red'}
                 }
               /> */}
-              <Pressable
-                style={style.messageIcon}
-                onPress={() => navigation.navigate(Routes.Profile)}>
+              <Pressable style={style.messageIcon}>
                 <FontAwesomeIcon
                   icon={faEnvelope}
                   color={'#CACDDE'}
